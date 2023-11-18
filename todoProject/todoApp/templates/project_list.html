@@ -1,0 +1,27 @@
+
+
+{% block content %}
+  <h1>Projects</h1>
+  <ul>
+    {% for project in projects %}
+      <li>
+        <a href="{% url 'task_list' pk=project.pk %}">{{ project.name }}</a>
+        <form method="post" action="{% url 'delete_project' pk=project.pk %}">
+          {% csrf_token %}
+          <input type="submit" value="Delete">
+        </form>
+      </li>
+    {% empty %}
+      <li>No projects yet.</li>
+    {% endfor %}
+  </ul>
+  <h2>Add a new project</h2>
+  <form method="post">
+    {% csrf_token %}
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name"><br>
+    <input type="submit" value="Add Project">
+  </form>
+{% endblock %}
+
+

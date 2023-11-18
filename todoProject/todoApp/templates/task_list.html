@@ -1,0 +1,43 @@
+
+
+{% block content %}
+  <h1>Tasks for Project: {{ project.name }}</h1>
+  <ul>
+    {% for task in tasks %}
+      <li>
+        {{ task.description }} (Category: {{ task.category }}, Expected Time to Complete: {{ task.expected_time_to_complete }}, Due: {{ task.due_date }}, Priority: {{ task.get_priority_display }}, Completed: {{ task.completed }}, Completion Date: {{ task.completion_date }})
+        <form method="post" action="{% url 'complete_task' pk=task.pk %}">
+          {% csrf_token %}
+          <input type="submit" value="Mark as Completed">
+        </form>
+      </li>
+    {% empty %}
+      <li>No tasks yet.</li>
+    {% endfor %}
+  </ul>
+  <h2>Add a new task</h2>
+  <form method="post">
+    {% csrf_token %}
+    <label for="description">Description:</label><br>
+    <input type="text" id="description" name="description"><br>
+    <label for="category">Category:</label><br>
+    <input type="text" id="category" name="category"><br>
+    <label for="expected_time_to_complete">Expected Time to Complete:</label><br>
+    <input type="text" id="expected_time_to_complete" name="expected_time_to_complete"><br>
+    <label for="due_date">Due Date:</label><br>
+    <input type="date" id="due_date" name="due_date"><br>
+    <label for="priority">Priority:</label><br>
+    <select id="priority" name="priority">
+      <option value="L">Low</option>
+      <option value="M" selected>Medium</option>
+      <option value="H">High</option>
+    </select><br>
+    <input type="submit" value="Add Task">
+  </form>
+{% endblock %}
+
+
+
+
+
+
